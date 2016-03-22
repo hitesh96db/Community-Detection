@@ -35,8 +35,8 @@ def parse(dataFile):
     return map(lambda x, y, z: (x, y, z), ids, titles, years)[:1000]
 
 if __name__ == "__main__":
-    dataFile = "/home/kanika/aan/release/2013/acl-metadata.txt"
+    dataFile = "../aan/release/2013/acl-metadata.txt"
 
     parsedData = parse(dataFile)
-    print "hi"
-    print parsedData
+    #print "hi"
+    #print parsedData

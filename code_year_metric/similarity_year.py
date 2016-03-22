@@ -60,7 +60,7 @@ def writeMatrix(similarityMatrix, parsedData):
 if __name__ == "__main__":
     print "start"
     startticks = time.time()
-    dataFile = "/home/kanika/aan/release/2013/acl-metadata.txt"
+    dataFile = "../aan/release/2013/acl-metadata.txt"
     parsedData = parse(dataFile)
     print parsedData
     endticks = time.time()
