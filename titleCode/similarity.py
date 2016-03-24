@@ -34,7 +34,8 @@ def buildSimilarityMatrix(parsedData):
     for i in range(len(parsedData)):
         for j in range(i, len(parsedData)):
             print i, j
-            similarityMatrix[i][j] = 1 - spatial.distance.cosine(idVectors[i], idVectors[j])
+            similarityMatrix[i][j] = similarityMatrix[j][i] = \
+                1 - spatial.distance.cosine(idVectors[i], idVectors[j])
 
     print similarityMatrix[1]
 
