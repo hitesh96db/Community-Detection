@@ -4,6 +4,7 @@
 import re
 from tokenizer import *
 from stemmer import *
+import cPickle as pickle
 
 paperIdRe = re.compile(ur"id = \{(.*?)\}", flags = re.U)
 titleRe = re.compile(ur"title = \{(.*?)\}", flags = re.U)
@@ -22,14 +23,22 @@ def parse(dataFile):
     data = open(dataFile).read()
 
     ids = paperIdRe.findall(data)
-    titles = titleRe.findall(data)
+    raw_titles = titleRe.findall(data)
     years = yearRe.findall(data)
-
-    titles = processTitles(titles)
+    
+    titles = processTitles(raw_titles[:])
     # Is any proccesing for 'year' required?
     
-    return map(lambda x, y, z: (x, y, z), ids, titles, years)[:5000]
+    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:1000]
 
 if __name__ == "__main__":
     dataFile = "../aan/release/2013/acl-metadata.txt"
     parsedData = parse(dataFile)
+    # Create dict dump of papers
+    papers = {}
+    for data in parsedData:
+        papers[data[0]] = {"id": data[0],
+                           "raw_title": data[1],
+                           "title": " ".join(data[2]),
+                           "year": data[3]}
+    pickle.dump(papers, open("papers_dict.p", "wb"))

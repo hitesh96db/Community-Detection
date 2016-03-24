@@ -1,0 +1,75 @@
+##########################
+Cluster 1
+D10-1012 Inducing Word Senses to Improve Web Search Result Clustering
+D10-1034 Clustering-Based Stratified Seed Sampling for Semi-Supervised Relation Classification
+D10-1036 Automatic Keyphrase Extraction via Topic Decomposition
+D10-1073 Word Sense Induction Disambiguation Using Hierarchical Random Graphs
+D10-1081 An Efficient Algorithm for Unsupervised Word Segmentation with Branching Entropy and MDL
+D10-1086 A Tree Kernel-Based Unified Framework for Chinese Zero Anaphora Resolution
+D10-1096 Evaluating the Impact of Alternative Dependency Graph Encodings on Solving Event Extraction Tasks
+D10-1098 Domain Adaptation of Rule-Based Annotators for Named-Entity Recognition Tasks
+D10-1099 Collective Cross-Document Relation Extraction Without Labelled Data
+D10-1101 Extracting Opinion Targets in a Single and Cross-Domain Setting with Conditional Random Fields
+##########################
+
+
+##########################
+Cluster 2
+D10-1013 Improving Translation via Targeted Paraphrasing
+D10-1014 Soft Syntactic Constraints for Hierarchical Phrase-Based Translation Using Latent Syntactic Distributions
+D10-1015 A Hybrid Morpheme-Word Representation for Machine Translation of Morphologically Rich Languages
+D10-1016 "Poetic" Statistical Machine Translation: Rhyme and Meter
+D10-1027 Efficient Incremental Decoding for Tree-to-String Translation
+D10-1041 Facilitating Translation Using Source Language Paraphrase Lattices
+D10-1042 Mining Name Translations from Entity Graph Mapping
+D10-1043 Non-Isomorphic Forest Pair Translation
+D10-1044 Discriminative Instance Weighting for Domain Adaptation in Statistical Machine Translation
+D10-1051 Automatic Analysis of Rhythmic Poetry with Applications to Generation and Translation
+##########################
+
+
+##########################
+Cluster 3
+D10-1010 Learning the Relative Usefulness of Questions in Community QA
+D10-1019 Joint Training and Decoding Using Virtual Nodes for Cascaded Segmentation and Tagging Tasks
+D10-1029 Predicting the Semantic Compositionality of Prefix Verbs
+D10-1030 Joint Inference for Bilingual Semantic Role Labeling
+D10-1039 A Semi-Supervised Approach to Improve Classification of Infrequent Discourse Relations Using Feature Vector Extension
+D10-1047 Multi-Document Summarization Using A* Search and Discriminative Learning
+D10-1070 A Unified Framework for Scope Learning via Simplified Shallow Semantic Parsing
+D10-1072 What a Parser Can Learn from a Semantic Role Labeler and Vice Versa
+D10-1088 Using Unknown Word Techniques to Learn Known Words
+D10-1097 Enhancing Mention Detection Using Projection via Aligned Corpora
+##########################
+
+
+##########################
+Cluster 4
+D10-1006 Jointly Modeling Aspects and Opinions with a MaxEnt-LDA Hybrid
+D10-1011 Positional Language Models for Clinical Information Retrieval
+D10-1017 Efficient Graph-Based Semi-Supervised Learning of Structured Tagging Models
+D10-1020 Crouching Dirichlet, Hidden Markov Model: Unsupervised POS Tagging with Context Local Tag Generation
+D10-1023 Modeling Organization in Student Essays
+D10-1024 Evaluating Models of Latent Document Semantics in the Presence of OCR Errors
+D10-1026 Storing the Web in Memory: Space Efficient Language Models with Constant Time Retrieval
+D10-1028 Modeling Perspective Using Adaptor Grammars
+D10-1052 Discriminative Word Alignment with a Function Word Reordering Model
+D10-1058 A Fast Fertility Hidden Markov Model for Word Alignment Using MCMC
+##########################
+
+
+##########################
+Cluster 5
+D10-1001 On Dual Decomposition and Linear Programming Relaxations for Natural Language Processing
+D10-1002 Self-Training with Products of Latent Variable Grammars
+D10-1003 Utilizing Extra-Sentential Context for Parsing
+D10-1004 Turbo Parsers: Dependency Parsing by Approximate Variational Inference
+D10-1005 Holistic Sentiment Analysis Across Languages: Multilingual Supervised Latent Dirichlet Allocation
+D10-1007 Summarizing Contrastive Viewpoints in Opinionated Text
+D10-1008 Automatically Producing Plot Unit Representations for Narrative Text
+D10-1009 Handling Noisy Queries in Cross Language FAQ Retrieval
+D10-1018 Better Punctuation Prediction with Dynamic Conditional Random Fields
+D10-1021 Improving Gender Classification of Blog Authors
+##########################
+
+
