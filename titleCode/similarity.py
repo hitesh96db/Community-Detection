@@ -8,7 +8,7 @@ def getUniqueTokens(parsedData):
     tokens = []
 
     for i in parsedData:
-        for token in i[1]:
+        for token in i[2]:
             if token not in tokens:
                 tokens.append(token)
 
@@ -20,7 +20,7 @@ def buildVectors(tokens, parsedData):
 
     for i in range(len(parsedData)):
         for j in range(len(tokens)):
-            idVectors[i][j] = parsedData[i][1].count(tokens[j])
+            idVectors[i][j] = parsedData[i][2].count(tokens[j])
 
     return idVectors
 
@@ -37,7 +37,7 @@ def buildSimilarityMatrix(parsedData):
             similarityMatrix[i][j] = similarityMatrix[j][i] = \
                 1 - spatial.distance.cosine(idVectors[i], idVectors[j])
 
-    print similarityMatrix[1]
+    #print similarityMatrix[0]
 
     return similarityMatrix
 
