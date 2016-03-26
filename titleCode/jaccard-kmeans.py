@@ -12,7 +12,7 @@ import random
 
 # Cluster into 5 groups
 K = 5
-MAX_ITERATIONS = 1
+MAX_ITERATIONS = 3
 colors = [
     'or', # Red
     'og', # Green
@@ -29,13 +29,17 @@ def run(fileName):
     global K, colors
 
     papers = pickle.load(open("papers_dict.p", "rb"))
+    print "Constructing graph..."
     G = createGraph.buildGraph(fileName)
+    print "Completed"
     nodes_list = G.nodes()
 
     # Pick any K random nodes as the centroids
     centroids = random.sample(nodes_list, K)
 
     iteration_no = 0
+
+    print "Running K-means..."
 
     while True:
 
@@ -61,11 +65,15 @@ def run(fileName):
                 val1 = len(set(n_node).intersection(n_c))
                 val2 = len(set(n_node).union(n_c))
                 # Calculate Jaccard similarity
+                # Include the node and centroid in the union
+                jacc = float(val1)/(val2 + 2.0)
+                """
                 try:
                     jacc = float(val1)/val2
                 except ZeroDivisionError:
                     # ?
                     jacc = 0.0
+                """
                 if jacc >= max_jacc:
                     c_idx = idx
                     max_jacc = jacc
@@ -73,7 +81,11 @@ def run(fileName):
     
             # Append node to the cluster
             clusters[c_idx].append(node)
-        
+       
+        # Add centroids to respective clusters
+        for no in xrange(0, len(centroids)):
+            clusters[no].append(centroids[no])
+ 
         centroids = []
 
         # Formed our cluster, find new set of centroid points
@@ -82,20 +94,23 @@ def run(fileName):
             max_edges = 0
             new_centroid = None
             for node in cluster:
-                no_of_edges = len(nx.all_neighbors(G, node))
+                no_of_edges = len(list(nx.all_neighbors(G, node)))
                 if no_of_edges >= max_edges:
                     new_centroid = node
                     max_edges = no_of_edges
 
             if new_centroid == None:
                 # Do this ?
+                # Should never happen
                 sys.stderr.write("One of the clusters was empty. Please restart\n")
                 sys.exit(2)
             else:
                 centroids.append(new_centroid)
 
         iteration_no += 1
+        print "Completed Iteration " + str(iteration_no)
 
+    print "K-Means completed."
     # Done with k-means
     # Output result
     cNo = 1
