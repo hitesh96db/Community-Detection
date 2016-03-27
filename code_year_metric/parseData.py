@@ -4,6 +4,7 @@
 import re
 from tokenizer import *
 from stemmer import *
+import cPickle as pickle
 
 paperIdRe = re.compile(ur"id = \{(.*?)\}", flags = re.U)
 titleRe = re.compile(ur"title = \{(.*?)\}", flags = re.U)
@@ -15,28 +16,33 @@ def processTitles(titles):
         title = tokenize(title)
         titles[ind] = stemList(title)
 
-
     return titles
 
 
-
 def parse(dataFile):
-    
-
     data = open(dataFile).read()
 
+    # finds all the paper ids, titles, years and loads them into a list
     ids = paperIdRe.findall(data)
-    titles = titleRe.findall(data)
+    raw_titles = titleRe.findall(data)
     years = yearRe.findall(data)
-    #print ids, titles, years
-    titles = processTitles(titles)
-    # Is any proccesing for 'year' required?
     
-    return map(lambda x, y, z: (x, y, z), ids, titles, years)[:1000]
+    # tokenize, case-fold, remove stop-words, stem titles
+    titles = processTitles(raw_titles[:])
+    
+    # returns the data for first 10,000 papers as [(id, raw_title, title(after pre-processing, year)), ...]
+    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:1000]
+
 
 if __name__ == "__main__":
     dataFile = "../aan/release/2013/acl-metadata.txt"
-
     parsedData = parse(dataFile)
-    #print "hi"
-    #print parsedData
+
+    # Create dict dump of papers
+    papers = {}
+    for data in parsedData:
+        papers[data[0]] = {"id": data[0],
+                           "raw_title": data[1],
+                           "title": " ".join(data[2]),
+                           "year": data[3]}
+    pickle.dump(papers, open("papers_dict.p", "wb"))

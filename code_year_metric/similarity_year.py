@@ -1,52 +1,51 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import time;
 from parseData import *
 from scipy import spatial
 
-
-
-def getUniqueTokens(parsedData):
-    tokens = []
+# returns list of unique 'years'
+def getUniqueYears(parsedData):
+    years = []
 
     for i in parsedData:
-        if i[2] not in tokens:
-            print i[2]
-            tokens.append(i[2])
+        if i[3] not in years:
+            
+            years.append(i[3])
 
-    return tokens
+    return years
 
 
-def buildVectors(tokens, parsedData):
-    idVectors = [[0 for y in range(len(tokens))] for x in range(len(parsedData))]        #????
+# build number_of_papers * number_of_unique_tokens incidence matrix
+def buildVectors(years, parsedData):
+    idVectors = [[0 for y in range(len(years))] for x in range(len(parsedData))]
 
     for i in range(len(parsedData)):
-        for j in range(len(tokens)):
-            idVectors[i][j] = parsedData[i][2].count(tokens[j])
+        for j in range(len(years)):
+            idVectors[i][j] = parsedData[i][3].count(years[j])
 
     return idVectors
 
 
+# build a number_of_papers * number_of_papers size matrix conatining similarity measure (cosine-similarity) between any two papers
 def buildSimilarityMatrix(parsedData):
-    tokens = getUniqueTokens(parsedData)
-    #print tokens
-    idVectors = buildVectors(tokens, parsedData)
-    #print idVectors
-    similarityMatrix = [[0 for y in range(len(parsedData))] for x in range(len(parsedData))]      #????
+    years = getUniqueYears(parsedData)
+    idVectors = buildVectors(years, parsedData)
+
+    similarityMatrix = [[0 for y in range(len(parsedData))] for x in range(len(parsedData))]
 
     for i in range(len(parsedData)):
         for j in range(i, len(parsedData)):
-            #print "i=",i, "j=",j
-            similarityMatrix[i][j] = 1 - spatial.distance.cosine(idVectors[i], idVectors[j])
-
-    #print similarityMatrix[1]
+            print i, j
+            similarityMatrix[i][j] = similarityMatrix[j][i] = \
+                1 - spatial.distance.cosine(idVectors[i], idVectors[j])
 
     return similarityMatrix
 
 
+# write the matrix into a file
 def writeMatrix(similarityMatrix, parsedData):
-    out = open('similarity_year.txt', 'w+')
+    out = open('similarity_Year.txt', 'w+')
 
     for i in range(len(similarityMatrix)):
         out.write(parsedData[i][0])
@@ -58,16 +57,8 @@ def writeMatrix(similarityMatrix, parsedData):
 
 
 if __name__ == "__main__":
-    print "start"
-    startticks = time.time()
     dataFile = "../aan/release/2013/acl-metadata.txt"
+
     parsedData = parse(dataFile)
-    print parsedData
-    endticks = time.time()
-    print "parsing done time:",endticks-startticks
     similarityMatrix = buildSimilarityMatrix(parsedData)
-    print "similarity done.. time:",endticks-startticks
-    print "write to file.."
     writeMatrix(similarityMatrix, parsedData)
-    endticks = time.time()
-    print endticks-startticks
