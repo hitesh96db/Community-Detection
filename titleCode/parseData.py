@@ -29,7 +29,7 @@ def parse(dataFile):
     titles = processTitles(raw_titles[:])
     # Is any proccesing for 'year' required?
     
-    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:1000]
+    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:10000]
 
 if __name__ == "__main__":
     dataFile = "../aan/release/2013/acl-metadata.txt"
