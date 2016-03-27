@@ -4,7 +4,7 @@
 import sys
 import networkx as nx
 
-
+# loads the matrix in 'similarityFileName' into 'similarityMatrix' and list of ids 'ids'
 def getMatrix(similarityFileName):
     similarityFile = open(similarityFileName, 'r')
 
@@ -14,12 +14,15 @@ def getMatrix(similarityFileName):
     for line in similarityFile:
         line = line.split(',')
 
+        # add the next id to 'ids' and similarityVector to 'similarityMatrix'
         ids.append(line[0])
         similarityMatrix.append(line[1:])
 
     return (ids, similarityMatrix)
 
 
+# return average similarity between any two nodes
+# to be used as a threshold fo adding an edge between any two nodes while forming the graph
 def getAvgSimilarity(similarityMatrix):
     sumSimilarity = 0.0
     totalSimilarities = 0.0
@@ -32,6 +35,7 @@ def getAvgSimilarity(similarityMatrix):
     return (sumSimilarity/totalSimilarities)
 
 
+# returns list of edges as [(node1, node2), ...]
 def getEdges(ids, similarityMatrix, avgSimilarity):
     edges = []
 
@@ -49,6 +53,7 @@ def buildGraph(similarityFileName):
 
     edges = getEdges(ids, similarityMatrix, avgSimilarity)
 
+    # creating the graph
     G = nx.Graph()
     
     G.add_nodes_from(ids)

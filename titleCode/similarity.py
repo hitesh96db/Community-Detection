@@ -4,6 +4,7 @@
 from parseData import *
 from scipy import spatial
 
+# returns list of unique tokens in 'titles'
 def getUniqueTokens(parsedData):
     tokens = []
 
@@ -15,6 +16,7 @@ def getUniqueTokens(parsedData):
     return tokens
 
 
+# build number_of_papers * number_of_unique_tokens incidence matrix
 def buildVectors(tokens, parsedData):
     idVectors = [[0 for y in range(len(tokens))] for x in range(len(parsedData))]
 
@@ -25,6 +27,7 @@ def buildVectors(tokens, parsedData):
     return idVectors
 
 
+# build a number_of_papers * number_of_papers size matrix conatining similarity measure (cosine-similarity) between any two papers
 def buildSimilarityMatrix(parsedData):
     tokens = getUniqueTokens(parsedData)
     idVectors = buildVectors(tokens, parsedData)
@@ -37,11 +40,10 @@ def buildSimilarityMatrix(parsedData):
             similarityMatrix[i][j] = similarityMatrix[j][i] = \
                 1 - spatial.distance.cosine(idVectors[i], idVectors[j])
 
-    #print similarityMatrix[0]
-
     return similarityMatrix
 
 
+# write the matrix into a file
 def writeMatrix(similarityMatrix, parsedData):
     out = open('similarity_Title.txt', 'w+')
 

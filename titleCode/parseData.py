@@ -22,18 +22,22 @@ def processTitles(titles):
 def parse(dataFile):
     data = open(dataFile).read()
 
+    # finds all the paper ids, titles, years and loads them into a list
     ids = paperIdRe.findall(data)
     raw_titles = titleRe.findall(data)
     years = yearRe.findall(data)
     
+    # tokenize, case-fold, remove stop-words, stem titles
     titles = processTitles(raw_titles[:])
-    # Is any proccesing for 'year' required?
     
+    # returns the data for first 10,000 papers as [(id, raw_title, title(after pre-processing, year)), ...]
     return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:10000]
+
 
 if __name__ == "__main__":
     dataFile = "../aan/release/2013/acl-metadata.txt"
     parsedData = parse(dataFile)
+
     # Create dict dump of papers
     papers = {}
     for data in parsedData:

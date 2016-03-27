@@ -10,9 +10,9 @@ from pylab import plot, show
 import cPickle as pickle
 import random
 
-# Cluster into 5 groups
-K = 5
-MAX_ITERATIONS = 3
+# Cluster into 10 groups
+K = 10
+MAX_ITERATIONS = 5
 colors = [
     'or', # Red
     'og', # Green
