@@ -21,27 +21,13 @@ def getMatrix(similarityFileName):
     return (ids, similarityMatrix)
 
 
-# return average similarity between any two nodes
-# to be used as a threshold fo adding an edge between any two nodes while forming the graph
-def getAvgSimilarity(similarityMatrix):
-    sumSimilarity = 0.0
-    totalSimilarities = 0.0
-
-    for i in range(len(similarityMatrix)):
-        for j in range(i, len(similarityMatrix[i])):
-            sumSimilarity += float(similarityMatrix[i][j])
-            totalSimilarities += 1.0
-
-    return (sumSimilarity/totalSimilarities)
-
-
 # returns list of edges as [(node1, node2), ...]
-def getEdges(ids, similarityMatrix, avgSimilarity):
+def getEdges(ids, similarityMatrix):
     edges = []
 
     for i in range(len(similarityMatrix)):
         for j in range(i, len(similarityMatrix[i])):
-            if float(similarityMatrix[i][j]) > avgSimilarity:
+            if float(similarityMatrix[i][j]) == 1:
                 edges.append((ids[i], ids[j]))
 
     return edges
@@ -49,9 +35,9 @@ def getEdges(ids, similarityMatrix, avgSimilarity):
 
 def buildGraph(similarityFileName):
     ids, similarityMatrix = getMatrix(similarityFileName)
-    avgSimilarity = getAvgSimilarity(similarityMatrix)
+    
 
-    edges = getEdges(ids, similarityMatrix, avgSimilarity)
+    edges = getEdges(ids, similarityMatrix)
 
     # creating the graph
     G = nx.Graph()
