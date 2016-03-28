@@ -10,7 +10,7 @@ from pylab import plot, show
 import cPickle as pickle
 
 # Cluster into 5 groups
-K = 5
+K = 10
 colors = [
     'or', # Red
     'og', # Green
