@@ -24,7 +24,7 @@ colors = [
     'ow', # White
     ]
 
-def run(fileName):
+def run():
 
     global K, colors
 
@@ -84,7 +84,8 @@ def run(fileName):
        
         # Add centroids to respective clusters
         for no in xrange(0, len(centroids)):
-            clusters[no].append(centroids[no])
+            if centroids[no] not in clusters[no]:
+                clusters[no].append(centroids[no])
  
         centroids = []
 
