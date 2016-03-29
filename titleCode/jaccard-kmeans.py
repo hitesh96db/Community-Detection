@@ -24,13 +24,13 @@ colors = [
     'ow', # White
     ]
 
-def run(fileName):
+def run():
 
     global K, colors
 
     papers = pickle.load(open("papers_dict.p", "rb"))
     print "Constructing graph..."
-    G = createGraph.buildGraph(fileName)
+    G = createGraph.loadGraph()
     print "Completed"
     nodes_list = G.nodes()
 
@@ -84,7 +84,8 @@ def run(fileName):
        
         # Add centroids to respective clusters
         for no in xrange(0, len(centroids)):
-            clusters[no].append(centroids[no])
+            if centroids[no] not in clusters[no]:
+                clusters[no].append(centroids[no])
  
         centroids = []
 
@@ -117,7 +118,7 @@ def run(fileName):
     for cluster in clusters:
         print "##########################"
         print "Cluster " + str(cNo)
-        for node in cluster[:10]:
+        for node in cluster[:15]:
             print node, papers[node]["raw_title"]
         print "##########################"
         print
@@ -126,9 +127,4 @@ def run(fileName):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        sys.stderr.write("Usage: " + sys.argv[0] + " <Similarity Vector File Name>\n")
-        sys.exit(2)
-
-    similarityFileName = sys.argv[1]
-    run(similarityFileName)
+    run()

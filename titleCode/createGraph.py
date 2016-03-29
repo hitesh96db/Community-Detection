@@ -3,6 +3,7 @@
 
 import sys
 import networkx as nx
+import cPickle as pickle
 
 # loads the matrix in 'similarityFileName' into 'similarityMatrix' and list of ids 'ids'
 def getMatrix(similarityFileName):
@@ -26,9 +27,9 @@ def getMatrix(similarityFileName):
 def getAvgSimilarity(similarityMatrix):
     sumSimilarity = 0.0
     totalSimilarities = 0.0
-
     for i in range(len(similarityMatrix)):
         for j in range(i, len(similarityMatrix[i])):
+            print i, j
             sumSimilarity += float(similarityMatrix[i][j])
             totalSimilarities += 1.0
 
@@ -38,9 +39,9 @@ def getAvgSimilarity(similarityMatrix):
 # returns list of edges as [(node1, node2), ...]
 def getEdges(ids, similarityMatrix, avgSimilarity):
     edges = []
-
     for i in range(len(similarityMatrix)):
         for j in range(i, len(similarityMatrix[i])):
+            print i, j
             if float(similarityMatrix[i][j]) > avgSimilarity:
                 edges.append((ids[i], ids[j]))
 
@@ -53,14 +54,19 @@ def buildGraph(similarityFileName):
 
     edges = getEdges(ids, similarityMatrix, avgSimilarity)
 
-    # creating the graph
+    pseudo_Graph = {
+        "ids_list": ids,
+        "edges_list": edges
+    }
+    pickle.dump(pseudo_Graph, open("graph_dict.p", "wb"))
+
+def loadGraph():
+    pg = pickle.load(open("graph_dict.p", "rb"))
+
     G = nx.Graph()
-    
-    G.add_nodes_from(ids)
-    G.add_edges_from(edges)
-
+    G.add_nodes_from(pg["ids_list"])
+    G.add_edges_from(pg["edges_list"])
     return G
-
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -69,6 +75,6 @@ if __name__ == "__main__":
 
     similarityFileName = sys.argv[1]
 
-    G = buildGraph(similarityFileName)
-    print "Number of Nodes in Community Graph (number of research papers considered): ", G.number_of_nodes()
-    print "Number of Edges in Community Graph", G.number_of_edges()
+    buildGraph(similarityFileName)
+    #print "Number of Nodes in Community Graph (number of research papers considered): ", G.number_of_nodes()
+    #print "Number of Edges in Community Graph", G.number_of_edges()
