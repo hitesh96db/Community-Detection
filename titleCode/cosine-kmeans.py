@@ -9,8 +9,10 @@ from numpy.random import rand
 from pylab import plot, show
 import cPickle as pickle
 
+from sklearn.cluster import KMeans
+
 # Cluster into 10 groups
-K = 10
+K = 8
 colors = [
     'or', # Red
     'og', # Green
@@ -47,7 +49,10 @@ def run(fileName):
     ids, similarityMatrix = getMatrix(similarityFileName)
     simMatrixArray = array(similarityMatrix)
 
-    centroids, labels = kmeans2(simMatrixArray, K)
+    # centroids, labels = kmeans2(simMatrixArray, K)
+
+    km = KMeans(n_clusters = K, init = "random")
+    labels = km.fit_predict(similarityMatrix)
 
     dataArgs = []
     clusters = [[] for no in xrange(0, K)]
