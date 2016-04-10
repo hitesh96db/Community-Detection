@@ -29,7 +29,6 @@ def getAvgSimilarity(similarityMatrix):
     totalSimilarities = 0.0
     for i in range(len(similarityMatrix)):
         for j in range(i, len(similarityMatrix[i])):
-            print i, j
             sumSimilarity += float(similarityMatrix[i][j])
             totalSimilarities += 1.0
 
@@ -37,44 +36,61 @@ def getAvgSimilarity(similarityMatrix):
 
 
 # returns list of edges as [(node1, node2), ...]
-def getEdges(ids, similarityMatrix, avgSimilarity):
+def getEdges(ids, similarityMatrix, weighted, avgSimilarity = None,):
     edges = []
-    for i in range(len(similarityMatrix)):
-        for j in range(i, len(similarityMatrix[i])):
-            print i, j
-            if float(similarityMatrix[i][j]) > avgSimilarity:
-                edges.append((ids[i], ids[j]))
+
+    if weighted == 'w':
+        for i in range(len(similarityMatrix)):
+            for j in range(i, len(similarityMatrix[i])):
+                edges.append((ids[i], ids[j], float(similarityMatrix[i][j])))
+
+    else:            
+        for i in range(len(similarityMatrix)):
+            for j in range(i, len(similarityMatrix[i])):
+                if float(similarityMatrix[i][j]) > avgSimilarity:
+                    edges.append((ids[i], ids[j]))
 
     return edges
 
 
-def buildGraph(similarityFileName):
+def buildGraph(similarityFileName, weighted):
     ids, similarityMatrix = getMatrix(similarityFileName)
-    avgSimilarity = getAvgSimilarity(similarityMatrix)
 
-    edges = getEdges(ids, similarityMatrix, avgSimilarity)
+    if weighted == 'w':
+        edges = getEdges(ids, similarityMatrix, weighted = weighted)
+    else:
+        avgSimilarity = getAvgSimilarity(similarityMatrix)
+        edges = getEdges(ids, similarityMatrix, weighted, avgSimilarity)
+
+    print edges[0]
 
     pseudo_Graph = {
         "ids_list": ids,
         "edges_list": edges
     }
-    pickle.dump(pseudo_Graph, open("graph_dict.p", "wb"))
+    pickle.dump(pseudo_Graph, open(weighted + "_graph_dict.p", "wb"))
 
-def loadGraph():
-    pg = pickle.load(open("graph_dict.p", "rb"))
+
+def loadGraph(weighted):
+    pg = pickle.load(open(weighted + "_graph_dict.p", "rb"))
 
     G = nx.Graph()
     G.add_nodes_from(pg["ids_list"])
-    G.add_edges_from(pg["edges_list"])
+
+    if weighted == 'w':
+        G.add_weighted_edges_from(pg["edges_list"])
+    else:
+        G.add_edges_from(pg["edges_list"])
+        
     return G
 
+
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        sys.stderr.write("Usage: " + sys.argv[0] + " <Similarity Vector File Name>")
+    if len(sys.argv) < 3:
+        sys.stderr.write("Usage: " + sys.argv[0] + " <Similarity Vector File Name> <weighted(w) / unweighted(uw)>")
         sys.exit(2)
 
     similarityFileName = sys.argv[1]
+    weighted = sys.argv[2]
 
-    buildGraph(similarityFileName)
-    #print "Number of Nodes in Community Graph (number of research papers considered): ", G.number_of_nodes()
-    #print "Number of Edges in Community Graph", G.number_of_edges()
+    buildGraph(similarityFileName, weighted)
