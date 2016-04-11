@@ -10,7 +10,6 @@ def getUniqueYears(parsedData):
 
     for i in parsedData:
         if i[3] not in years:
-            
             years.append(i[3])
 
     return years
@@ -57,7 +56,7 @@ def writeMatrix(similarityMatrix, parsedData):
 
 
 if __name__ == "__main__":
-    dataFile = "../aan/release/2013/acl-metadata.txt"
+    dataFile = "../dataset_small/acl-metadata_new.txt"
 
     parsedData = parse(dataFile)
     similarityMatrix = buildSimilarityMatrix(parsedData)

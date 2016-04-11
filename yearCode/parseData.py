@@ -8,7 +8,7 @@ import cPickle as pickle
 
 paperIdRe = re.compile(ur"id = \{(.*?)\}", flags = re.U)
 titleRe = re.compile(ur"title = \{(.*?)\}", flags = re.U)
-yearRe = re.compile(ur"year = \{(.*?)[\n]*\}", flags = re.U)
+yearRe = re.compile(ur"year = \{(.*?)\}*[\n]", flags = re.U)
 
 
 def processTitles(titles):
@@ -31,11 +31,11 @@ def parse(dataFile):
     titles = processTitles(raw_titles[:])
     
     # returns the data for first 10,000 papers as [(id, raw_title, title(after pre-processing, year)), ...]
-    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:1000]
+    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)
 
 
 if __name__ == "__main__":
-    dataFile = "../aan/release/2013/acl-metadata.txt"
+    dataFile = "../dataset_small/acl-metadata_new.txt"
     parsedData = parse(dataFile)
 
     # Create dict dump of papers

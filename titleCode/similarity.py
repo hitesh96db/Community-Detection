@@ -57,7 +57,7 @@ def writeMatrix(similarityMatrix, parsedData):
 
 
 if __name__ == "__main__":
-    dataFile = "../aan/release/2013/acl-metadata.txt"
+    dataFile = "../dataset_small/acl-metadata_new.txt"
 
     parsedData = parse(dataFile)
     similarityMatrix = buildSimilarityMatrix(parsedData)
