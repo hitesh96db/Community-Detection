@@ -5,9 +5,11 @@ import sys
 import networkx as nx
 import cPickle as pickle
 
+DATA_DIR = 'data/'
+
 # loads the matrix in 'similarityFileName' into 'similarityMatrix' and list of ids 'ids'
 def getMatrix(similarityFileName):
-    similarityFile = open(similarityFileName, 'r')
+    similarityFile = open(DATA_DIR + similarityFileName, 'r')
 
     ids = []
     similarityMatrix = []
@@ -62,17 +64,15 @@ def buildGraph(similarityFileName, weighted):
         avgSimilarity = getAvgSimilarity(similarityMatrix)
         edges = getEdges(ids, similarityMatrix, weighted, avgSimilarity)
 
-    print edges[0]
-
     pseudo_Graph = {
         "ids_list": ids,
         "edges_list": edges
     }
-    pickle.dump(pseudo_Graph, open(weighted + "_graph_dict.p", "wb"))
+    pickle.dump(pseudo_Graph, open(DATA_DIR + weighted + "_graph_dict.p", "wb"))
 
 
 def loadGraph(weighted):
-    pg = pickle.load(open(weighted + "_graph_dict.p", "rb"))
+    pg = pickle.load(open(DATA_DIR + weighted + "_graph_dict.p", "rb"))
 
     G = nx.Graph()
     G.add_nodes_from(pg["ids_list"])

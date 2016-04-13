@@ -11,8 +11,11 @@ import cPickle as pickle
 import random
 
 # Cluster into 10 groups
-K = 10
-MAX_ITERATIONS = 5
+K = 20
+MAX_ITERATIONS = 20
+OUTPUT_DIR = 'output/'
+DATA_DIR = 'data/'
+WEIGHTED = False
 colors = [
     'or', # Red
     'og', # Green
@@ -24,13 +27,18 @@ colors = [
     'ow', # White
     ]
 
+def writeToFile(communities, weighted):
+    with open(OUTPUT_DIR + weighted + "_communities.txt", 'w+') as f:
+        for node in communities:
+            f.write(node + ',' + str(communities[node]) + '\n')
+
 def run():
 
     global K, colors
 
-    papers = pickle.load(open("papers_dict.p", "rb"))
+    papers = pickle.load(open(DATA_DIR + "papers_dict.p", "rb"))
     print "Constructing graph..."
-    G = createGraph.loadGraph()
+    G = createGraph.loadGraph(weighted=('w' if WEIGHTED else 'uw'))
     print "Completed"
     nodes_list = G.nodes()
 
@@ -112,19 +120,17 @@ def run():
         print "Completed Iteration " + str(iteration_no)
 
     print "K-Means completed."
-    # Done with k-means
-    # Output result
-    cNo = 1
+    print "Storing communities!"
+    partition = {}
+    cNo = 0
     for cluster in clusters:
-        print "##########################"
         print "Cluster " + str(cNo)
-        for node in cluster[:15]:
-            print node, papers[node]["raw_title"]
-        print "##########################"
-        print
-        print
+        for node in cluster:
+            partition[node] = cNo
         cNo += 1
 
+    writeToFile(partition, weighted=('w' if WEIGHTED else 'uw'))
 
 if __name__ == "__main__":
+    WEIGHTED = False
     run()

@@ -12,7 +12,9 @@ import cPickle as pickle
 from sklearn.cluster import KMeans
 
 # Cluster into 10 groups
-K = 8
+K = 15
+DATA_DIR = 'data/'
+OUTPUT_DIR = 'output/'
 colors = [
     'or', # Red
     'og', # Green
@@ -23,6 +25,12 @@ colors = [
     'oc', # Cyan
     'ow', # White
     ]
+
+def writeToFile(communities, weighted):
+    with open(OUTPUT_DIR + weighted + "_communities.txt", 'w+') as f:
+        for node in communities:
+            f.write(node + ',' + str(communities[node]) + '\n')
+
 
 def getMatrix(similarityFileName):
     similarityFile = open(similarityFileName, 'r')
@@ -43,9 +51,7 @@ def run(fileName):
 
     global K, colors
 
-    papers = pickle.load(open("papers_dict.p", "rb"))
-#    G = createGraph.buildGraph(fileName)
-#    k = nx.all_neighbors(G, G.nodes()[0])
+    papers = pickle.load(open(DATA_DIR + "papers_dict.p", "rb"))
     ids, similarityMatrix = getMatrix(similarityFileName)
     simMatrixArray = array(similarityMatrix)
 
@@ -59,7 +65,8 @@ def run(fileName):
 
     for i in xrange(0, len(labels)):
         clusters[labels[i]].append(ids[i])
-    
+
+    """    
     for cNo in xrange(0, K):
         print "##########################"
         print "Cluster " + str(cNo + 1)
@@ -68,7 +75,9 @@ def run(fileName):
         print "##########################"
         print
         print
+    """
 
+    """
     for clusterNo in xrange(0, K):
         for dim in xrange(0, len(ids)):
             dataArgs.append(simMatrixArray[labels == clusterNo, dim])
@@ -76,6 +85,19 @@ def run(fileName):
 
     plot(*dataArgs)
     show()
+    """
+
+    print "Storing communities!"
+    partition = {}
+    cNo = 0
+    for cluster in clusters:
+        print "Cluster " + str(cNo)
+        for node in cluster:
+            partition[node] = cNo
+        cNo += 1
+
+    # No graph in this case
+    writeToFile(partition, weighted='uw')
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
