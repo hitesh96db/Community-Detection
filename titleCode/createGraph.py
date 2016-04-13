@@ -53,6 +53,18 @@ def getEdges(ids, similarityMatrix, weighted, avgSimilarity = None,):
     return edges
 
 
+def writeEdgesToFile(edges, weighted):
+    out = open(weighted + '_edges.txt', 'w+')
+
+    for edge in edges:
+        if weighted == 'w':
+            out.write(edge[0] + ',' + edge[1] + ',' + str(edge[2]) + '\n')
+        else:
+            out.write(edge[0] + ',' + edge[1] + '\n')
+
+    out.close()
+
+
 def buildGraph(similarityFileName, weighted):
     ids, similarityMatrix = getMatrix(similarityFileName)
 
@@ -62,7 +74,7 @@ def buildGraph(similarityFileName, weighted):
         avgSimilarity = getAvgSimilarity(similarityMatrix)
         edges = getEdges(ids, similarityMatrix, weighted, avgSimilarity)
 
-    print edges[0]
+    writeEdgesToFile(edges, weighted)
 
     pseudo_Graph = {
         "ids_list": ids,
