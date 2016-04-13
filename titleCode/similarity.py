@@ -4,6 +4,8 @@
 from parseData import *
 from scipy import spatial
 
+DATA_DIR = 'data/'
+
 # returns list of unique tokens in 'titles'
 def getUniqueTokens(parsedData):
     tokens = []
@@ -45,7 +47,7 @@ def buildSimilarityMatrix(parsedData):
 
 # write the matrix into a file
 def writeMatrix(similarityMatrix, parsedData):
-    out = open('similarity_Title.txt', 'w+')
+    out = open(DATA_DIR + 'similarity_Title.txt', 'w+')
 
     for i in range(len(similarityMatrix)):
         out.write(parsedData[i][0])
@@ -57,7 +59,7 @@ def writeMatrix(similarityMatrix, parsedData):
 
 
 if __name__ == "__main__":
-    dataFile = "../dataset_small/acl-metadata_new.txt"
+    dataFile = "../aan/release/2013/acl-metadata.txt"
 
     parsedData = parse(dataFile)
     similarityMatrix = buildSimilarityMatrix(parsedData)

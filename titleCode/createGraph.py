@@ -5,9 +5,11 @@ import sys
 import networkx as nx
 import cPickle as pickle
 
+DATA_DIR = 'data/'
+
 # loads the matrix in 'similarityFileName' into 'similarityMatrix' and list of ids 'ids'
 def getMatrix(similarityFileName):
-    similarityFile = open(similarityFileName, 'r')
+    similarityFile = open(DATA_DIR + similarityFileName, 'r')
 
     ids = []
     similarityMatrix = []
@@ -20,6 +22,18 @@ def getMatrix(similarityFileName):
         similarityMatrix.append(line[1:])
 
     return (ids, similarityMatrix)
+
+
+def writeEdgesToFile(edges, weighted):
+    out = open(weighted + '_edges.txt', 'w+')
+
+    for edge in edges:
+        if weighted == 'w':
+            out.write(edge[0] + ',' + edge[1] + ',' + str(edge[2]) + '\n')
+        else:
+            out.write(edge[0] + ',' + edge[1] + '\n')
+
+    out.close()
 
 
 # return average similarity between any two nodes
@@ -53,18 +67,6 @@ def getEdges(ids, similarityMatrix, weighted, avgSimilarity = None,):
     return edges
 
 
-def writeEdgesToFile(edges, weighted):
-    out = open(weighted + '_edges.txt', 'w+')
-
-    for edge in edges:
-        if weighted == 'w':
-            out.write(edge[0] + ',' + edge[1] + ',' + str(edge[2]) + '\n')
-        else:
-            out.write(edge[0] + ',' + edge[1] + '\n')
-
-    out.close()
-
-
 def buildGraph(similarityFileName, weighted):
     ids, similarityMatrix = getMatrix(similarityFileName)
 
@@ -74,17 +76,15 @@ def buildGraph(similarityFileName, weighted):
         avgSimilarity = getAvgSimilarity(similarityMatrix)
         edges = getEdges(ids, similarityMatrix, weighted, avgSimilarity)
 
-    writeEdgesToFile(edges, weighted)
-
     pseudo_Graph = {
         "ids_list": ids,
         "edges_list": edges
     }
-    pickle.dump(pseudo_Graph, open(weighted + "_graph_dict.p", "wb"))
+    pickle.dump(pseudo_Graph, open(DATA_DIR + weighted + "_graph_dict.p", "wb"))
 
 
 def loadGraph(weighted):
-    pg = pickle.load(open(weighted + "_graph_dict.p", "rb"))
+    pg = pickle.load(open(DATA_DIR + weighted + "_graph_dict.p", "rb"))
 
     G = nx.Graph()
     G.add_nodes_from(pg["ids_list"])

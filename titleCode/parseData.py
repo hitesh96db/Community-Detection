@@ -10,6 +10,7 @@ paperIdRe = re.compile(ur"id = \{(.*?)\}", flags = re.U)
 titleRe = re.compile(ur"title = \{(.*?)\}", flags = re.U)
 yearRe = re.compile(ur"year = \{(.*?)[\n]*\}", flags = re.U)
 
+DATA_DIR = 'data/'
 
 def processTitles(titles):
     for ind, title in enumerate(titles):
@@ -29,13 +30,15 @@ def parse(dataFile):
     
     # tokenize, case-fold, remove stop-words, stem titles
     titles = processTitles(raw_titles[:])
-    
+ 
     # returns the data for first 10,000 papers as [(id, raw_title, title(after pre-processing, year)), ...]
-    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:10000]
+    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:2000]
 
 
 if __name__ == "__main__":
-    dataFile = "../dataset_small/acl-metadata_new.txt"
+
+    dataFile = "../aan/release/2013/acl-metadata.txt"
+
     parsedData = parse(dataFile)
 
     # Create dict dump of papers
@@ -45,4 +48,4 @@ if __name__ == "__main__":
                            "raw_title": data[1],
                            "title": " ".join(data[2]),
                            "year": data[3]}
-    pickle.dump(papers, open("papers_dict.p", "wb"))
+    pickle.dump(papers, open(DATA_DIR + "papers_dict.p", "wb"))
