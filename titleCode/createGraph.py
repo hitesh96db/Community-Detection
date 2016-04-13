@@ -24,6 +24,18 @@ def getMatrix(similarityFileName):
     return (ids, similarityMatrix)
 
 
+def writeEdgesToFile(edges, weighted):
+    out = open(weighted + '_edges.txt', 'w+')
+
+    for edge in edges:
+        if weighted == 'w':
+            out.write(edge[0] + ',' + edge[1] + ',' + str(edge[2]) + '\n')
+        else:
+            out.write(edge[0] + ',' + edge[1] + '\n')
+
+    out.close()
+
+
 # return average similarity between any two nodes
 # to be used as a threshold fo adding an edge between any two nodes while forming the graph
 def getAvgSimilarity(similarityMatrix):
