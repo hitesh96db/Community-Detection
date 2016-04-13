@@ -9,6 +9,7 @@ import community
 import matplotlib.pyplot as plt
 from createGraph import *
 
+OUTPUT_DIR = 'output/'
 
 # Load graph and get communities
 def getCommunities(weighted):
@@ -17,7 +18,7 @@ def getCommunities(weighted):
 
 
 def writeToFile(communities):
-    out = open(weighted + "_communities.txt", 'w+')
+    out = open(OUTPUT_DIR + weighted + "_communities.txt", 'w+')
 
     for node in communities:
         out.write(node + ',' + str(communities[node]) + '\n')
@@ -31,6 +32,6 @@ if __name__ == "__main__":
     weighted = sys.argv[1]
 
     G, communities = getCommunities(weighted)
-    print "Communitites formed!!"
+    print "Communitites formed!"
 
     writeToFile(communities)
