@@ -10,12 +10,11 @@ from pylab import plot, show
 import cPickle as pickle
 import random
 
-# Cluster into 10 groups
+# Cluster into 20 groups
 K = 20
 MAX_ITERATIONS = 20
 OUTPUT_DIR = 'output/'
 DATA_DIR = 'data/'
-WEIGHTED = False
 colors = [
     'or', # Red
     'og', # Green
@@ -27,10 +26,11 @@ colors = [
     'ow', # White
     ]
 
-def writeToFile(communities, weighted):
-    with open(OUTPUT_DIR + weighted + "_communities.txt", 'w+') as f:
+def writeToFile(communities):
+    with open(OUTPUT_DIR +  "uw_communities.txt", 'w+') as f:
         for node in communities:
             f.write(node + ',' + str(communities[node]) + '\n')
+
 
 def run():
 
@@ -38,7 +38,7 @@ def run():
 
     papers = pickle.load(open(DATA_DIR + "papers_dict.p", "rb"))
     print "Constructing graph..."
-    G = createGraph.loadGraph(weighted=('w' if WEIGHTED else 'uw'))
+    G = createGraph.loadGraph()
     print "Completed"
     nodes_list = G.nodes()
 
@@ -92,8 +92,7 @@ def run():
        
         # Add centroids to respective clusters
         for no in xrange(0, len(centroids)):
-            if centroids[no] not in clusters[no]:
-                clusters[no].append(centroids[no])
+            clusters[no].append(centroids[no])
  
         centroids = []
 
@@ -120,6 +119,8 @@ def run():
         print "Completed Iteration " + str(iteration_no)
 
     print "K-Means completed."
+    # Done with k-means
+    # Output result
     print "Storing communities!"
     partition = {}
     cNo = 0
@@ -129,8 +130,9 @@ def run():
             partition[node] = cNo
         cNo += 1
 
-    writeToFile(partition, weighted=('w' if WEIGHTED else 'uw'))
+    writeToFile(partition)
+
 
 if __name__ == "__main__":
-    WEIGHTED = False
+    
     run()

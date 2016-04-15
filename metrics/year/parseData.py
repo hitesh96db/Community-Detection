@@ -10,6 +10,7 @@ paperIdRe = re.compile(ur"id = \{(.*?)\}", flags = re.U)
 titleRe = re.compile(ur"title = \{(.*?)\}", flags = re.U)
 yearRe = re.compile(ur"year = \{(.*?)\}*[\n]", flags = re.U)
 
+DATA_DIR = 'data/'
 
 def processTitles(titles):
     for ind, title in enumerate(titles):
@@ -45,4 +46,4 @@ if __name__ == "__main__":
                            "raw_title": data[1],
                            "title": " ".join(data[2]),
                            "year": data[3]}
-    pickle.dump(papers, open("papers_dict.p", "wb"))
+    pickle.dump(papers, open(DATA_DIR + "papers_dict.p", "wb"))

@@ -2,7 +2,6 @@
 
 In this project, "Community Detection from Research Articles", the task then becomes detecting research papers which belong to a common field of research.
 The project contains following folders:
-
 > aan :
 This folder consists of the AAN (ACL Anthology Network) dataset. We worked on the 2013 release of the dataset.
 

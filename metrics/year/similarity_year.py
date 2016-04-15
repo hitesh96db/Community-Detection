@@ -4,6 +4,8 @@
 from parseData import *
 from scipy import spatial
 
+DATA_DIR = 'data/'
+
 # returns list of unique 'years'
 def getUniqueYears(parsedData):
     years = []
@@ -44,7 +46,7 @@ def buildSimilarityMatrix(parsedData):
 
 # write the matrix into a file
 def writeMatrix(similarityMatrix, parsedData):
-    out = open('similarity_Year.txt', 'w+')
+    out = open(DATA_DIR + 'similarity_Year.txt', 'w+')
 
     for i in range(len(similarityMatrix)):
         out.write(parsedData[i][0])
