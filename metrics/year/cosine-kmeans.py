@@ -11,10 +11,11 @@ import cPickle as pickle
 
 from sklearn.cluster import KMeans
 
-# Cluster into 15 groups
+# Cluster into 10 groups
 K = 15
 DATA_DIR = 'data/'
 OUTPUT_DIR = 'output/'
+SIMILARITY_FILE = 'data/similarity_Year.txt'
 colors = [
     'or', # Red
     'og', # Green
@@ -27,7 +28,7 @@ colors = [
     ]
 
 def writeToFile(communities, weighted):
-    with open(OUTPUT_DIR + weighted + "_communities.txt", 'w+') as f:
+    with open(OUTPUT_DIR + weighted + "_communities_cosine_kmeans.txt", 'w+') as f:
         for node in communities:
             f.write(node + ',' + str(communities[node]) + '\n')
 
@@ -42,7 +43,6 @@ def getMatrix(similarityFileName):
         line = line.strip('\n').split(',')
 
         ids.append(line[0])
-	print line[1:]
         rest = map(lambda x: float(x), line[1:])
         similarityMatrix.append(rest)
 
@@ -53,13 +53,12 @@ def run(fileName):
     global K, colors
 
     papers = pickle.load(open(DATA_DIR + "papers_dict.p", "rb"))
-#    G = createGraph.buildGraph(fileName)
-#    k = nx.all_neighbors(G, G.nodes()[0])
-    ids, similarityMatrix = getMatrix(similarityFileName)
+    ids, similarityMatrix = getMatrix(SIMILARITY_FILE)
     simMatrixArray = array(similarityMatrix)
 
     # centroids, labels = kmeans2(simMatrixArray, K)
 
+    print "Finding communities!"
     km = KMeans(n_clusters = K, init = "random")
     labels = km.fit_predict(similarityMatrix)
 
@@ -68,24 +67,7 @@ def run(fileName):
 
     for i in xrange(0, len(labels)):
         clusters[labels[i]].append(ids[i])
-    """ 
-    for cNo in xrange(0, K):
-        print "##########################"
-        print "Cluster " + str(cNo + 1)
-        for node in clusters[cNo][:10]:
-            print node, papers[node]["raw_title"]
-        print "##########################"
-        print
-        print
-    
-    for clusterNo in xrange(0, K):
-        for dim in xrange(0, len(ids)):
-            dataArgs.append(simMatrixArray[labels == clusterNo, dim])
-        dataArgs.append(colors[clusterNo])
 
-    plot(*dataArgs)
-    show()
-    """ 
     print "Storing communities!"
     partition = {}
     cNo = 0
@@ -97,10 +79,6 @@ def run(fileName):
 
     # No graph in this case
     writeToFile(partition, weighted='uw')
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        sys.stderr.write("Usage: " + sys.argv[0] + " <Similarity Vector File Name>\n")
-        sys.exit(2)
 
-    similarityFileName = sys.argv[1]
-    run(similarityFileName)
+if __name__ == "__main__":
+    run(SIMILARITY_FILE)

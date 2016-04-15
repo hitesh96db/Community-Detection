@@ -10,11 +10,12 @@ from pylab import plot, show
 import cPickle as pickle
 import random
 
-# Cluster into 20 groups
+# Cluster into 10 groups
 K = 20
 MAX_ITERATIONS = 20
 OUTPUT_DIR = 'output/'
 DATA_DIR = 'data/'
+WEIGHTED = False
 colors = [
     'or', # Red
     'og', # Green
@@ -26,11 +27,10 @@ colors = [
     'ow', # White
     ]
 
-def writeToFile(communities):
-    with open(OUTPUT_DIR +  "uw_communities.txt", 'w+') as f:
+def writeToFile(communities, weighted):
+    with open(OUTPUT_DIR + weighted + "_communities_jaccard_kmeans.txt", 'w+') as f:
         for node in communities:
             f.write(node + ',' + str(communities[node]) + '\n')
-
 
 def run():
 
@@ -75,13 +75,6 @@ def run():
                 # Calculate Jaccard similarity
                 # Include the node and centroid in the union
                 jacc = float(val1)/(val2 + 2.0)
-                """
-                try:
-                    jacc = float(val1)/val2
-                except ZeroDivisionError:
-                    # ?
-                    jacc = 0.0
-                """
                 if jacc >= max_jacc:
                     c_idx = idx
                     max_jacc = jacc
@@ -92,7 +85,8 @@ def run():
        
         # Add centroids to respective clusters
         for no in xrange(0, len(centroids)):
-            clusters[no].append(centroids[no])
+            if centroids[no] not in clusters[no]:
+                clusters[no].append(centroids[no])
  
         centroids = []
 
@@ -119,8 +113,6 @@ def run():
         print "Completed Iteration " + str(iteration_no)
 
     print "K-Means completed."
-    # Done with k-means
-    # Output result
     print "Storing communities!"
     partition = {}
     cNo = 0
@@ -130,9 +122,7 @@ def run():
             partition[node] = cNo
         cNo += 1
 
-    writeToFile(partition)
-
+    writeToFile(partition, weighted=('w' if WEIGHTED else 'uw'))
 
 if __name__ == "__main__":
-    
     run()

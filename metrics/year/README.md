@@ -10,6 +10,14 @@ To generate similarity_Year.txt (used by k-means.py)
 
 To generate the clusters
 
-> python createGraph.py similarity_Year.txt
-> python jaccard-kmeans similarity_Year.txt
-> python cosine-kmeans similarity_Year.txt
+Create the graph first -
+
+> python createGraph.py
+
+Running Jaccard K-Means
+
+> python jaccard-kmeans
+
+Running Cosine K-Means
+
+> python cosine-kmeans.py
