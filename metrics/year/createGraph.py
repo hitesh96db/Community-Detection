@@ -4,7 +4,10 @@
 import sys
 import networkx as nx
 import cPickle as pickle
+
 DATA_DIR = 'data/'
+SIMILARITY_FILE = 'data/similarity_Year.txt'
+
 # loads the matrix in 'similarityFileName' into 'similarityMatrix' and list of ids 'ids'
 def getMatrix(similarityFileName):
     similarityFile = open(similarityFileName, 'r')
@@ -59,7 +62,7 @@ def loadGraph():
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        sys.stderr.write("Usage: " + sys.argv[0] + " <Similarity Vector File Name>")
+        sys.stderr.write("Usage: " + sys.argv[0] + " <Similarity Vector File Name>\n")
         sys.exit(2)
 
     similarityFileName = sys.argv[1]

@@ -11,6 +11,8 @@ titleRe = re.compile(ur"title = \{(.*?)\}", flags = re.U)
 yearRe = re.compile(ur"year = \{(.*?)\}*[\n]", flags = re.U)
 
 DATA_DIR = 'data/'
+NUM_PAPERS = 100
+DATASET_FILE = "../../aan/release/2013/acl-metadata.txt"
 
 def processTitles(titles):
     for ind, title in enumerate(titles):
@@ -31,13 +33,14 @@ def parse(dataFile):
     # tokenize, case-fold, remove stop-words, stem titles
     titles = processTitles(raw_titles[:])
     
-    # returns the data for first 10,000 papers as [(id, raw_title, title(after pre-processing, year)), ...]
-    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)
+    # returns the data for first :NUM_PAPERS: papers as 
+    # [(id, raw_title, title(after pre-processing, year)), ...]
+    return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:NUM_PAPERS]
 
 
 if __name__ == "__main__":
-    dataFile = "../dataset_small/acl-metadata_new.txt"
-    parsedData = parse(dataFile)
+    
+    parsedData = parse(DATASET_FILE)
 
     # Create dict dump of papers
     papers = {}
