@@ -12,7 +12,7 @@ yearRe = re.compile(ur"year = \{(.*?)\}*[\n]", flags = re.U)
 
 DATA_DIR = 'data/'
 NUM_PAPERS = 100
-DATASET_FILE = "../../aan/release/2013/acl-metadata.txt"
+DATASET_FILE = "../../aan_small/acl-metadata_new.txt"
 
 def processTitles(titles):
     for ind, title in enumerate(titles):
@@ -32,7 +32,7 @@ def parse(dataFile):
     
     # tokenize, case-fold, remove stop-words, stem titles
     titles = processTitles(raw_titles[:])
-    
+
     # returns the data for first :NUM_PAPERS: papers as 
     # [(id, raw_title, title(after pre-processing, year)), ...]
     return map(lambda w, x, y, z: (w, x, y, z), ids, raw_titles, titles, years)[:NUM_PAPERS]

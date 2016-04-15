@@ -61,11 +61,7 @@ def loadGraph():
     return G
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        sys.stderr.write("Usage: " + sys.argv[0] + " <Similarity Vector File Name>\n")
-        sys.exit(2)
-
-    similarityFileName = sys.argv[1]
+    similarityFileName = SIMILARITY_FILE
     buildGraph(similarityFileName)
     #print "Number of Nodes in Community Graph (number of research papers considered): ", G.number_of_nodes()
     #print "Number of Edges in Community Graph", G.number_of_edges()
