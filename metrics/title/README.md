@@ -8,6 +8,16 @@ To generate similarity_Title.txt (used by k-means.py)
 
 > python similarity.py
 
-To generate the clusters
+To generate the clusters using cosine k-means:
 
-> python k-means similarity_Title.txt > output
+> python cosine-kmeans.py data/similarity_Title.txt
+
+To generate the clusters using jaccard k-means:
+
+> python createGraph.py uw
+> python jaccard-kmeans.py
+
+To generate the clusters using louvain algorithm:
+
+> python createGraph.py w/uw
+> python louvain.py w/uw

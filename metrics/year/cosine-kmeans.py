@@ -42,6 +42,7 @@ def getMatrix(similarityFileName):
         line = line.strip('\n').split(',')
 
         ids.append(line[0])
+	print line[1:]
         rest = map(lambda x: float(x), line[1:])
         similarityMatrix.append(rest)
 

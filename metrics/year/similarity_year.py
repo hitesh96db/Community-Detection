@@ -4,7 +4,9 @@
 from parseData import *
 from scipy import spatial
 
+NUM_PAPERS = 20
 DATA_DIR = 'data/'
+DATASET_FILE = "../../aan/release/2013/acl-metadata.txt"
 
 # returns list of unique 'years'
 def getUniqueYears(parsedData):
@@ -56,10 +58,11 @@ def writeMatrix(similarityMatrix, parsedData):
 
         out.write('\n')
 
+    out.close()
+
 
 if __name__ == "__main__":
-    dataFile = "../dataset_small/acl-metadata_new.txt"
 
-    parsedData = parse(dataFile)
+    parsedData = parse(DATASET_FILE)
     similarityMatrix = buildSimilarityMatrix(parsedData)
     writeMatrix(similarityMatrix, parsedData)

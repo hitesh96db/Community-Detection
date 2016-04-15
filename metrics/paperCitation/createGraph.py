@@ -5,7 +5,7 @@ import sys
 import networkx as nx
 import cPickle as pickle
 
-MAX_NODES = 20
+MAX_NODES = 1000
 DATA_DIR = 'data/'
 DATASET_FILE = '../../aan/release/2013/acl.txt' 
 
