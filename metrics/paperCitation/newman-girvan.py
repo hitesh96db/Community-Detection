@@ -43,6 +43,7 @@ def girvan_newman(G, weight=None):
             max_modularity = modularity
             final_comm = communities
 
+    print "Max Modularity: ", max_modularity
     return final_comm
 
 
@@ -64,7 +65,7 @@ def _remove_max_edge(G, weight=None):
     components of the original graph are detected.
     """
     number_components = nx.number_connected_components(G)
-    while nx.number_connected_components(G) <= number_components:
+    while nx.number_connected_components(G) <= number_components and G.number_of_edges():
         betweenness = nx.edge_betweenness_centrality(G, weight=weight)
         max_value = max(betweenness.values())
         # Use a list of edges because G is changed in the loop
