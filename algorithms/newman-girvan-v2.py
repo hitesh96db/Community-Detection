@@ -79,6 +79,7 @@ def runAlgo(G, node_edges_wts, total_wt):
             max_modularity = m
             communities = nx.connected_components(G)
 
+    print "Max Modularity: ", max_modularity
     return (max_modularity, communities)
 
 def writeToFile(communities, weighted):
